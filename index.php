@@ -11,13 +11,13 @@
 echo "<pre>";
 print_r($continents);
 
-//Double-word array
+//животные из 2 слов
 
-$newAnimals = []; 
 foreach ($continents as $continent => $animals) {
 	foreach ($animals as $animal) {
-		 if (strpos($animal, ' ') !== false) { 
-            array_push($newAnimals, $animal);
+		 if (str_word_count($animal, 0) == 2) { 
+            $newAnimals[] = $animal;
+        	$words[] = explode(' ', $animal);
         }
 	}
 }
@@ -25,67 +25,42 @@ foreach ($continents as $continent => $animals) {
 echo "<pre>";
 print_r($newAnimals);
 
-//Shuffle array
+// mix
 
-$explAnimals =[];
-foreach ($newAnimals as $animal) {
-		$explAnimals = array_merge ($explAnimals, explode(' ', $animal));
+foreach ($words as $word) {
+ 	$randomWords[] = $word[1];
+ 	shuffle($randomWords);
+ }
+
+//результат
+
+for ($i=0; $i <count($words); $i++) { 
+	$result[] = $words[$i][0]." ".$randomWords[$i];
 }
-
-$randomAnimals =[];
-$fantasyAnimals =[];
-
-for($i = 0; $i < count($explAnimals); $i++) {
-	if ($i % 2 != 0) {
-		$randomAnimals[] = $explAnimals[$i];
-		shuffle ($randomAnimals);
-	}
-	else {
-		$fantasyAnimals[] = $explAnimals[$i];
-	}
-}
-
-$fantasyAnimalsResult=[];
-for ($i=0; $i < count($randomAnimals); $i++) { 
-	$fantasyAnimalsResult[] = $fantasyAnimals[$i]." ".$randomAnimals[$i];
-}
-
 echo "<pre>";
-print_r($fantasyAnimalsResult);
+print_r($result);
 
 //extra-task
 
-$MultifantasyAnimalsResult=[];
 foreach ($continents as $continent => $animals) {
-	$keyArray = [];
+	$extra_animals=[];
 	foreach ($animals as $animal) {
-		for ($i=0; $i <count($fantasyAnimalsResult); $i++) { 
-			$explFantasyAnimals = explode(" ", $fantasyAnimalsResult[$i]);
-			$search = strstr($animal, $explFantasyAnimals[0]);
-
-        if (!(empty($search))) {
-          array_push($keyArray, $fantasyAnimalsResult[$i]);
-          break;	
-		}
-		}
+		for ($i=0; $i <count($result); $i++) { 
+			if (stripos($animal, explode(' ', $result[$i])[0])===false) {
+				continue;
+				}
+			else {
+				$extra_animals[] =$result[$i];
+ 				break;
+ 				}	
+		}		
 	}
- $MultifantasyAnimalsResult[$continent] = $keyArray;
- }
+$extra_continents[$continent] = $extra_animals;
+}
 
-echo "<h4>"."Extra task"."</h4>";
-foreach ($MultifantasyAnimalsResult as $continent => $animals) {
-	echo "<h2>".$continent."</h2>";
-	echo "<br>";
-
-		for ($i=0; $i < count($animals) ; $i++) {
-			echo $animals[$i];
-		if ($i<(count($animals)-1)) {
-			echo ", ";
-		} 
-		else {
-			echo ".";
-		}
-    	}
+foreach ($extra_continents as $continent => $extra_animals) {
+ 	echo '<h2>' . $continent . '</h2>';
+ 	echo implode(", ", $extra_animals);
 }
 
 ?>
