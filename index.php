@@ -13,6 +13,8 @@ print_r($continents);
 
 //животные из 2 слов
 
+$newAnimals = [];
+$words = [];
 foreach ($continents as $continent => $animals) {
 	foreach ($animals as $animal) {
 		 if (str_word_count($animal, 0) == 2) { 
@@ -27,13 +29,15 @@ print_r($newAnimals);
 
 // mix
 
+$randomWords=[];
 foreach ($words as $word) {
  	$randomWords[] = $word[1];
- 	shuffle($randomWords);
  }
+shuffle($randomWords);
 
 //результат
 
+$result=[];
 for ($i=0; $i <count($words); $i++) { 
 	$result[] = $words[$i][0]." ".$randomWords[$i];
 }
@@ -42,20 +46,18 @@ print_r($result);
 
 //extra-task
 
+$extra_continents=[];
+
 foreach ($continents as $continent => $animals) {
 	$extra_animals=[];
 	foreach ($animals as $animal) {
 		for ($i=0; $i <count($result); $i++) { 
-			if (stripos($animal, explode(' ', $result[$i])[0])===false) {
-				continue;
-				}
-			else {
+			if (stripos($animal, explode(' ', $result[$i])[0])!==false) {
 				$extra_animals[] =$result[$i];
- 				break;
  				}	
 		}		
 	}
-$extra_continents[$continent] = $extra_animals;
+	$extra_continents[$continent] = $extra_animals;
 }
 
 foreach ($extra_continents as $continent => $extra_animals) {
