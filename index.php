@@ -25,17 +25,18 @@ echo "<pre>";
 print_r($newAnimals);
 
 // mix
-shuffle($words);
+$randWords=[];
+$randWords = $words;
+shuffle($randWords);
 
-//результат
 $result=[];
-for ($i=0; $i <count($words); $i++) { 
-	$result[] = $words[$i][0]." ".$words[$i][1];
+for ($i=0; $i <count($words); $i++) {
+	$result[] = $words[$i][0]." ".$randWords[$i][1];
 }
 echo "<pre>";
 print_r($result);
 
-//extra-task
+// extra-task
 $extra_continents=[];
 foreach ($continents as $continent => $animals) {
 	$extra_animals=[];
